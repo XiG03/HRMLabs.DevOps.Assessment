@@ -1,0 +1,44 @@
+name: Part C - Docker (.NET Core CI)
+
+on:
+    push: 
+        branches: ["main"]
+        
+env: 
+    DOTNET_VERSION": "10.0.x"
+    IMAGE_NAME: "HRMLabs_Test"
+
+jobs:
+    build-and-test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+                uses: actions/checkout@v4
+
+            - name: Setup .NET
+                uses: actions/setup-dotnet@v4
+                with:
+                    dotnet-version: ${{env.DOTNET_VERSION}}
+
+            - name: Restore dependencies
+                run: dotnet restore
+
+            - name: Build project
+                run: dotnet  build --no-restore --configuration Release
+
+            - name: Run tests
+                run: dotnet test --no-build --configuration Release --verbosity normal
+
+            - name: Build Docker Image
+                run: docker build -t ${{env.IMAGE_NAME}}:${{github.sha}} .
+
+            - name: Report build status
+                if: always()
+                run: |
+                 if [ "${{ job.status }}" == "success" ]; then
+                          echo "✅ Build, test and Docker Image Successfully"
+                        else
+                          echo "❌ Build, test and Docker Image Failed. Check log"
+                        fi
+

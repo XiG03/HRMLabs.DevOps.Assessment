@@ -1,0 +1,31 @@
+name: Part I CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        working-directory: ./application
+        run: npm install
+
+      - name: Run tests
+        working-directory: ./application
+        run: npm test
+
+      - name: Build Docker image
+        run: docker build -t hrmlabs-mini-app:${{ github.sha }} ./application

@@ -1,0 +1,13 @@
+{
+  "name": "hrmlabs-mini-app",
+  "version": "1.0.0",
+  "description": "HRM Labs DevOps mini project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

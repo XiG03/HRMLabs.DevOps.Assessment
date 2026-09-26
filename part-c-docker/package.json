@@ -1,0 +1,9 @@
+{
+  "name": "hrm-labs-docker-demo",
+  "version": "1.0.0",
+  "description": "Simple Node.js application for Docker assessment",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  }
+}
